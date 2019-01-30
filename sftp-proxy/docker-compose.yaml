@@ -1,0 +1,25 @@
+---
+version: "3"
+services:
+
+  toolbox:
+    build: ../toolbox
+    networks:
+      - default
+
+  haproxy:
+    image: haproxy:1.9
+    ports:
+      - "2022:2022"
+    env_file:
+      ./sftp-vars.env
+    environment:
+      SFTP_PORT: "22"
+      SFTP_PROXY_PORT: "2022"
+    networks:
+      - default
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+networks:
+  default:
