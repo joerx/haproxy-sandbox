@@ -1,0 +1,19 @@
+---
+version: "3"
+services:
+
+  haproxy:
+    image: haproxy:1.9
+    ports:
+      - "8000:8000"
+    environment:
+      UPSTREAM_HOST: haproxy-dns-test.${TF_VAR_zone_name}
+      UPSTREAM_PORT: "80"
+      PROXY_PORT: "8000"
+    networks:
+      - default
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+networks:
+  default:
